@@ -1,6 +1,4 @@
-﻿ 
-    <%- include ../views/navPanel.ejs %> 
-    <p>Entities</p>
+﻿    <p>Entities</p>
 <div class="container">
     <div class="row">
         <div class="col-md-12">        
@@ -28,7 +26,7 @@
                                         <span class="glyphicon glyphicon-pencil"></span>
                                     </button>
                                 </p>
-                                <input type="text" name="id" value="<%= myData[i].id%>" hidden/>
+                                <input type="text" name="entityId" value="<%= myData[i].id%>" hidden/>
                             </form>
                         </td>
                         <td>
@@ -48,6 +46,3 @@
             </div>
     </div>
 </div>
-
-</body>
-</html>

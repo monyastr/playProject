@@ -1,6 +1,4 @@
-﻿ 
-    <%- include ../views/navPanel.ejs %> 
-    <p>Edit Entity</p>
+﻿    <p>Edit Entity</p>
 <div class="container">
     <div class="row">
         <div class="col-md-12">        
@@ -13,9 +11,9 @@
                    <th>Submit</th>                   
                 </thead>                   
                 <tbody>  
-                    <form method="POST" action="/entities/<%= myData.id%>/edit">
+                    <form method="POST" action="/entities/<%= myData[0].id%>/edit">
                     <tr>                         
-                        <td><input class="form-control" id="text" type="text" name="name" value="<%= myData.name%>" required></td>
+                        <td><input class="form-control" id="text" type="text" name="name" value="<%= myData[0].name%>" required></td>
                         <td>
                             <select class="form-control" id="list" name="list">
                                 <option value="value1" selected>Value 1</option>
@@ -24,7 +22,7 @@
                             </select>
                         </td>
                         <td><input class="form-control" id="date" type="date" name="date" onchange="checkDate(this)" 
-                            oninput="setCustomValidity('')" value="<%= myData.date%>" required >
+                            oninput="setCustomValidity('')" value="<%= myData[0].date%>" required >
 
                         </td>                        
                         <td >
@@ -43,7 +41,7 @@
 </div>
 
 <script>
-    document.getElementById("list").value = "<%= myData.list%>";
+    document.getElementById("list").value = "<%= myData[0].list%>";
     function checkDate(date) {
         let today = new Date().toISOString().slice(0, 10);
         if (date.value < today) {
@@ -51,6 +49,3 @@
         }
     }
 </script>
-
-</body>
-</html>
