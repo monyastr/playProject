@@ -1,17 +1,20 @@
 ﻿'use strict'
-var mysql = require('mysql');
+var mysql = require('mysql2');
+var Sequelize = require('sequelize');
+var sequelize = require('../Sequelize')
+
 var connection = mysql.createConnection({
     host: "localhost",
     user: "root",
     password: "quest1!",
-    database: "entitiesDb"
+    database: "entitiesdb2"
 });
 
-var getEntities = (req, res) => {
-    var sql = "SELECT * FROM entities;";
-    mysqlRequest(sql).then(
-        result => { res.render('grid.ejs', { myData: result }) }
-    );
+var getEntities = async (req, res) => {
+    var entities = await sequelize.findAll();   
+    res.render('grid.ejs', { myData: entities });
+   
+    
 };
 
 var showEntity = (req, res) => {
@@ -20,31 +23,30 @@ var showEntity = (req, res) => {
 };
 
 var deleteEntity = (req, res) => {
-    var inserts = [req.params.id];
-    var sql = "DELETE FROM entities WHERE id = ?";
-    mysqlRequest(sql, inserts);
+    sequelize.destroy({
+        where: { id: req.params.id }
+    });
     res.redirect('/entities');
 };
 
 var createEntity = (req, res) => {
-    var name = req.body.name;
-    var list = req.body.list;
-    var date = req.body.date;
-    var inserts = [name, list, date];
-    var sql = "INSERT INTO entities (name, list, date) VALUES (?, ?, ?)";
-    mysqlRequest(sql, inserts);
+    sequelize.create({
+        name: req.body.name,
+        list: req.body.list,
+        date: req.body.date
+    })
     res.render('addEntity.ejs');
 
 };
 
 var editEntity = (req, res) => {
-    var name = req.body.name;
-    var list = req.body.list;
-    var date = req.body.date;
-    var id = req.entity[0].id;    
-    var inserts = [name, list, date, id];
-    var sql = "UPDATE entities SET name = ?, list = ?, date = ? WHERE id = ?";
-    mysqlRequest(sql, inserts);
+    sequelize.update({
+        name: req.body.name,
+        list: req.body.list,
+        date: req.body.date,
+    }, {
+            where: { id: req.entity.id }
+        });    
     res.redirect('/entities');
 };
 
@@ -52,26 +54,16 @@ var getAddEntityForm = (req, res) => {
     res.render('addEntity.ejs');
 };
 
-var mysqlRequest = (sql, inserts) => {
-    console.log(mysql.format(sql, inserts));
-    return new Promise((resolve, reject) => {
-        connection.query(sql, inserts, (err, result) => {
-            if (err) throw err;
-            resolve(result);
-        });
-    });
-};
-
-
 var getEntity = (req, res, next) => {
-    var inserts = [req.params.entityId];
-    var sql = "SELECT * FROM entities WHERE id = ?;";
-    mysqlRequest(sql, inserts)
+    var id = [req.params.entityId];    
+    sequelize.findById(+id) 
         .then(result => {
-            req.entity = result;
+            console.log(result.dataValues);
+            req.entity = result.dataValues;
             next()
         });
 };
+
 
 module.exports = {
     showEntity,
