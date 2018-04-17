@@ -1,1 +1,0 @@
-cmd /k sbt run -jvm-debug 5005
