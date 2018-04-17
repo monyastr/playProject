@@ -1,0 +1,51 @@
+﻿    <p>Edit Entity</p>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">        
+        <div class="table">
+            <table id="mytable" class="table table-bordred table-striped">
+                <thead>                   
+                   <th>Text</th>
+                   <th>Dropbox</th>
+                   <th>Date</th>                   
+                   <th>Submit</th>                   
+                </thead>                   
+                <tbody>  
+                    <form method="POST" action="/entities/<%= myData.id%>/edit">
+                    <tr>                         
+                        <td><input class="form-control" id="text" type="text" name="name" value="<%= myData.name%>" required></td>
+                        <td>
+                            <select class="form-control" id="list" name="list">
+                                <option value="value1" selected>Value 1</option>
+                                <option value="value2">Value 2</option>
+                                <option value="value3">Value 3</option>
+                            </select>
+                        </td>
+                        <td><input class="form-control" id="date" type="date" name="date" onchange="checkDate(this)" 
+                            oninput="setCustomValidity('')" value="<%= myData.date%>" required >
+
+                        </td>                        
+                        <td >
+                            <button type="submit" class="btn btn-primary" data-title="Submit" >
+                                <span class="glyphicon glyphicon-ok"></span>
+                            </button>                            
+                        </td>
+                        
+                    </tr>   
+                    </form>
+                    </tbody>                
+                </table>  
+            </div>
+            </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById("list").value = "<%= myData.list%>";
+    function checkDate(date) {
+        let today = new Date().toISOString().slice(0, 10);
+        if (date.value < today) {
+            date.setCustomValidity('Date should be today or later');
+        }
+    }
+</script>

@@ -1,0 +1,57 @@
+@(entities : List[MyEntity])
+@import helper._
+
+@layout("Entities") {
+
+
+
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="table">
+                    <table id="mytable" class="table table-bordred table-striped">
+                        <thead>
+                            <th scope="col">Id</th>
+                            <th scope="col">Text</th>
+                            <th scope="col">Dropbox</th>
+                            <th scope="col">Date</th>
+                            <th scope="col">Edit</th>
+                            <th scope="col">Delete</th>
+                        </thead>
+                        <tbody>
+
+                        @for(myEntity <- entities){
+                            <tr>
+                                <th scope="row">@myEntity.id</th>
+                                <td>@myEntity.name</td>
+                                <td>@myEntity.list</td>
+                                <td>@myEntity.date</td>
+                                <td>
+                                    <form id="editForm" method="get" action="/entities/@myEntity.id/edit" >
+                                        <p data-placement="top" data-toggle="tooltip" title="Edit">
+                                            <button type="submit" class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit" >
+                                                <span class="glyphicon glyphicon-pencil"></span>
+                                            </button>
+                                        </p>
+                                    </form>
+                                </td>
+                                <td>
+                                    <form id="deleteForm" method="post" action="/entities/@myEntity.id/delete" >
+                                        <p data-placement="top" data-toggle="tooltip" title="Delete">
+                                            <button type="submit" class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete" >
+                                                <span class="glyphicon glyphicon-trash"></span>
+                                            </button>
+                                        </p>
+                                    </form>
+                                </td>
+                            </tr>
+                        }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
